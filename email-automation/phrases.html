@@ -1,0 +1,494 @@
+<title>メール頻出フレーズ集</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@500;700&display=swap">
+<style>
+  :root{
+    --ground:#f4f6f3;
+    --surface:#ffffff;
+    --surface-2:#eef1ec;
+    --ink:#1c2420;
+    --ink-soft:#4d574f;
+    --ink-faint:#79837a;
+    --line:#dde2db;
+    --accent:#0f7a58;
+    --accent-soft:#e2efe8;
+    --accent-ink:#0a5b41;
+    --ph-bg:#fbeede;
+    --ph-ink:#9a5a12;
+    --tpl-bg:#f3f6f2;
+    --tpl-line:#0f7a58;
+    --shadow:0 1px 2px rgba(28,36,32,.04),0 8px 24px rgba(28,36,32,.05);
+  }
+  :root:not([data-theme="light"]){
+    @media (prefers-color-scheme: dark){
+      --ground:#12332a;
+      --surface:#16302a;
+      --surface-2:#1c3b33;
+      --ink:#eaf1ec;
+      --ink-soft:#b3c3ba;
+      --ink-faint:#7f938a;
+      --line:#274a41;
+      --accent:#54c79c;
+      --accent-soft:#1e433a;
+      --accent-ink:#8fe0c1;
+      --ph-bg:#3d3020;
+      --ph-ink:#e7b57a;
+      --tpl-bg:#173730;
+      --tpl-line:#54c79c;
+      --shadow:0 1px 2px rgba(0,0,0,.2),0 8px 24px rgba(0,0,0,.28);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#12332a;
+    --surface:#16302a;
+    --surface-2:#1c3b33;
+    --ink:#eaf1ec;
+    --ink-soft:#b3c3ba;
+    --ink-faint:#7f938a;
+    --line:#274a41;
+    --accent:#54c79c;
+    --accent-soft:#1e433a;
+    --accent-ink:#8fe0c1;
+    --ph-bg:#3d3020;
+    --ph-ink:#e7b57a;
+    --tpl-bg:#173730;
+    --tpl-line:#54c79c;
+    --shadow:0 1px 2px rgba(0,0,0,.2),0 8px 24px rgba(0,0,0,.28);
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:var(--ground);color:var(--ink);
+    font-family:"Noto Sans JP",system-ui,sans-serif;
+    line-height:1.75;-webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:820px;margin:0 auto;padding:0 20px 96px}
+
+  header{padding:52px 0 28px;border-bottom:1px solid var(--line);margin-bottom:8px}
+  .eyebrow{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent-ink);font-weight:700;margin:0 0 12px}
+  h1{font-family:"Zen Kaku Gothic New","Noto Sans JP",sans-serif;font-weight:700;font-size:2.15rem;line-height:1.25;margin:0 0 14px;text-wrap:balance}
+  .lede{color:var(--ink-soft);font-size:1.02rem;margin:0;max-width:60ch}
+  .meta{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px}
+  .chip{font-size:.78rem;color:var(--ink-soft);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px 12px}
+
+  nav.toc{position:sticky;top:0;z-index:5;background:var(--ground);
+    padding:14px 0;margin-bottom:28px;border-bottom:1px solid var(--line);
+    display:flex;flex-wrap:wrap;gap:8px}
+  nav.toc a{font-size:.82rem;text-decoration:none;color:var(--ink-soft);
+    background:var(--surface);border:1px solid var(--line);border-radius:8px;
+    padding:6px 12px;transition:all .15s}
+  nav.toc a:hover{color:var(--accent-ink);border-color:var(--accent);background:var(--accent-soft)}
+
+  section{margin:0 0 44px;scroll-margin-top:72px}
+  .sec-head{display:flex;align-items:baseline;gap:12px;margin:0 0 6px}
+  .sec-num{font-family:"Zen Kaku Gothic New",sans-serif;font-weight:700;color:var(--accent);font-size:1.1rem;font-variant-numeric:tabular-nums}
+  h2{font-family:"Zen Kaku Gothic New","Noto Sans JP",sans-serif;font-weight:700;font-size:1.42rem;margin:0;color:var(--ink)}
+  .sec-note{color:var(--ink-faint);font-size:.9rem;margin:2px 0 20px}
+
+  h3{font-size:1rem;font-weight:700;margin:24px 0 12px;color:var(--ink);
+    display:flex;align-items:center;gap:9px}
+  h3::before{content:"";width:7px;height:7px;border-radius:2px;background:var(--accent);flex:none}
+
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;
+    padding:18px 20px;box-shadow:var(--shadow);margin:0 0 14px}
+
+  ul.lines{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
+  ul.lines li{position:relative;padding-left:20px;color:var(--ink);font-size:.96rem}
+  ul.lines li::before{content:"";position:absolute;left:4px;top:.72em;width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:.55}
+  ul.lines li .cap{display:block;color:var(--ink-faint);font-size:.82rem;padding-left:0}
+
+  .tpl{background:var(--tpl-bg);border-left:3px solid var(--tpl-line);border-radius:0 10px 10px 0;
+    padding:14px 16px;margin:12px 0;font-size:.95rem;white-space:pre-wrap;color:var(--ink)}
+  .tpl .lbl{display:block;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--accent-ink);font-weight:700;margin-bottom:8px}
+  .ph{background:var(--ph-bg);color:var(--ph-ink);border-radius:5px;padding:1px 5px;font-weight:500;font-size:.9em}
+
+  .callout{background:var(--accent-soft);border:1px solid var(--accent);border-radius:12px;
+    padding:16px 18px;margin:14px 0;font-size:.92rem;color:var(--ink)}
+  .callout strong{color:var(--accent-ink)}
+  .warn{border-color:#d9a441;background:var(--ph-bg)}
+  .warn strong{color:var(--ph-ink)}
+
+  .takeaways{background:var(--surface-2);border:1px solid var(--line);border-radius:14px;padding:20px 24px}
+  .takeaways h2{font-size:1.15rem;margin-bottom:14px}
+  .takeaways ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px}
+  .takeaways li{color:var(--ink-soft);font-size:.93rem}
+  .takeaways b{color:var(--ink)}
+
+  footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--line);
+    color:var(--ink-faint);font-size:.82rem}
+  .legend{display:inline-flex;align-items:center;gap:7px;color:var(--ink-soft);font-size:.86rem}
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Nature ／ 三矢さん</p>
+    <h1>メール頻出フレーズ集</h1>
+    <p class="lede">送信済みメール（社外向け）から抵き出した、実際によく使う言い回し。メール下書き自動化の「素材」として使います。<span class="legend"><span class="ph">{{ }}</span> は毎回差し替える箇所。</span></p>
+    <div class="meta">
+      <span class="chip">叩き台 — 直したい所は遠慮なく</span>
+      <span class="chip">対象：社外メール</span>
+      <span class="chip">7シーン ＋ 共通パーツ</span>
+    </div>
+  </header>
+
+  <nav class="toc">
+    <a href="#tone">トンマナ</a>
+    <a href="#common">共通パーツ</a>
+    <a href="#s1">1. 会議調整</a>
+    <a href="#s2">2. 注文・請求</a>
+    <a href="#s3">3. 資料・契約</a>
+    <a href="#s4">4. お客様サポート</a>
+    <a href="#s5">5. 見積・フォロー</a>
+    <a href="#s6">6. お断り・お詫び</a>
+    <a href="#s7">7. 日程調整（カレンダー）</a>
+    <a href="#tips">傾向メモ</a>
+  </nav>
+
+  <section id="tone">
+    <div class="sec-head"><span class="sec-num" style="font-size:.9rem">✍️</span><h2>トンマナ（文体ガイド）</h2></div>
+    <p class="sec-note">三矢さんの文体の原則。下書きはこれに沿う。違和感のあった言い回しは例として足していく。</p>
+    <div class="card">
+      <ul class="lines">
+        <li>硬すぎる定型ビジネス語は避け、<b>自分の言葉で丁寧に</b>伝える。</li>
+        <li>クッション言葉（恐れ入りますが／大変恐縮ですが 等）は使うが、<b>大げさにしすぎない</b>。</li>
+        <li>事実（金額・型番・日付・仕様）は<b>創作しない</b>。分からなければ「社内で確認のうえ改めてご連絡」の形にする。</li>
+        <li>一文は<b>長くしすぎず、簡潔に</b>。</li>
+      </ul>
+      <div class="callout warn"><strong>避けたい言い回し（例）</strong>　「正確を期すため」→「念のため確認のうえ」など、自分の言葉に。</div>
+    </div>
+  </section>
+
+  <section id="common">
+    <div class="sec-head"><span class="sec-num">0</span><h2>共通パーツ</h2></div>
+    <p class="sec-note">どのメールでも使う土台。</p>
+
+    <div class="card">
+      <h3>書き出し</h3>
+      <div class="tpl">{{相手会社名}} {{宛名}}様
+お世話になっております。Natureの三矢です。</div>
+      <ul class="lines">
+        <li>初めての相手：お世話になっております。Natureの三矢と申します。</li>
+        <li>社名を添えるとき：{{相手会社名}} {{部署名}} {{宛名}}様</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>冒頭のひとこと（受信への反応）</h3>
+      <ul class="lines">
+        <li>ご連絡いただきありがとうございます。</li>
+        <li>ご連絡ありがとうございます。</li>
+        <li>早速ご確認いただき、ありがとうございます。</li>
+        <li>この度は、ご連絡いただきましてありがとうございます。</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>受領・了解を伝える</h3>
+      <ul class="lines">
+        <li>{{内容}}の旨、承知いたしました。</li>
+        <li>{{内容}}につきまして承知いたしました。</li>
+        <li>確かに拝受いたしました。</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>結び</h3>
+      <ul class="lines">
+        <li>引き続きよろしくお願いいたします。</li>
+        <li>何卒よろしくお願いいたします。</li>
+        <li>当日はどうぞよろしくお願いいたします。<span class="cap">会議確定時</span></li>
+        <li>ご不明な点等ございましたら、お気軽にご連絡ください。</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>署名</h3>
+      <p style="margin:0 0 4px;color:var(--ink-soft);font-size:.92rem">本文の末尾はこの1行で締める：</p>
+      <div class="tpl">Nature / 三矢</div>
+      <p style="margin:10px 0 4px;color:var(--ink-soft);font-size:.92rem">その下の正式署名は <b>Gmailのデフォルト署名</b>として自動で入る。本文には書かない：</p>
+      <div class="tpl">Nature株式会社 三矢 めぐみ
+https://nature.global/</div>
+      <div class="callout warn"><strong>⚠️ 要検証</strong>　Gmailの下書きをツールで自動作成すると、デフォルト署名が自動で入らない可能性あり。仕組みを作るときに確認します（入らないなら下書きに正式署名まで含める）。</div>
+    </div>
+  </section>
+
+  <section id="s1">
+    <div class="sec-head"><span class="sec-num">1</span><h2>会議調整系</h2></div>
+
+    <div class="card">
+      <h3>打ち合わせを依頼する（本文の入り）</h3>
+      <ul class="lines">
+        <li>{{用件}}について、認識合わせのお時間をいただきたく、ご連絡いたしました。</li>
+        <li>{{用件}}について事前にすり合わせをさせていただきたく、以下の日程で{{所要時間}}程度、お打ち合わせのお時間をいただけますでしょうか。</li>
+        <li>本件、{{引き継ぎ元}}より引き継ぎ、私の方で対応させていただきます。</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>候補日を送る</h3>
+      <div class="tpl"><span class="lbl">候補提示</span>お打ち合わせにつきまして、以下の日程でご都合はいかがでしょうか。
+・{{月日（曜）}} {{時間帯}}
+・{{月日（曜）}} {{時間帯}}
+・{{月日（曜）}} {{時間帯}}
+ご都合のよい日時をお知らせください。</div>
+      <ul class="lines">
+        <li>候補が合わなかった時：恐れ入りますが、ご提示いただいた日程での調整が難しいため、以下の日程ではいかがでしょうか。</li>
+        <li>最短で可能な日時を改めて提示させていただきます。</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>候補日を受領する／日程を確定する</h3>
+      <ul class="lines">
+        <li>{{日時}}にて承知いたしました。</li>
+        <li>Teams発行させていただきましたので、よろしければこちらでお繋ぎいただければと思います。</li>
+        <li>teams発行もありがとうございます。当日はどうぞよろしくお願いいたします。</li>
+        <li>{{ツール}}を発行いたしましたので、よろしければこちらでお繋ぎいただければと思います。<span class="cap">こちらから会議URLを送るとき</span></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>会議後のお礼＋ネクストアクション＋資料送付</h3>
+      <div class="tpl">先日はお打ち合わせのお時間を頂戴しまして誠にありがとうございました。
+お打ち合わせで投影いたしました資料を添付いたします。よろしければご確認いただけますと幸いです。
+{{ネクストアクション（例：社内にて〇〇の準備を進め、改めてご連絡いたします。）}}</div>
+      <ul class="lines">
+        <li>追加確認があるとき：先日ご共有いただきました「{{資料名}}」について、追加で何点か確認させてください。</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="s2">
+    <div class="sec-head"><span class="sec-num">2</span><h2>注文・納品・請求系</h2></div>
+
+    <div class="card">
+      <h3>注文書を受領した／納期を知らせる</h3>
+      <ul class="lines">
+        <li>注文書をお送りいただき、ありがとうございます。確かに拝受いたしました。</li>
+        <li>{{日付}}出荷、{{日付}}納品にて調整いたします。</li>
+        <li>本日出荷で対応できる見通しになりましたので、取り急ぎの報告とさせていただきます。諸々の手続きは追っての対応とさせてください。</li>
+        <li>注文請書を添付にてお送りいたします。ご確認のほどよろしくお願いいたします。</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>発送・追跡番号の連絡</h3>
+      <div class="tpl">{{製品名}}の発送手続きが完了いたしましたので、ご連絡いたします。
+運送会社：{{運送会社}}
+お届け指定日：{{日付}}
+送り状No（追跡番号）：{{番号}}
+お手数ですが、着荷のご確認のほどよろしくお願いいたします。</div>
+    </div>
+
+    <div class="card">
+      <h3>請求書を送る</h3>
+      <div class="tpl">{{件名の内容}}（{{月}}分）のご請求書を添付にて送付いたします。
+ご査収のほどよろしくお願いいたします。
+ご不明な点等ございましたら、お気軽にご連絡ください。</div>
+    </div>
+
+    <div class="card">
+      <h3>請求書送付を依頼・督促する</h3>
+      <div class="tpl">{{対象}}のご請求書につきまして、現時点で未受領となっております。
+弊社の経理締めの都合上、大変恐縮ですが、可能であれば{{営業日数}}営業日までにご送付いただけますと幸いです。
+お手数をおかけいたしますが、ご対応のほどよろしくお願いいたします。</div>
+      <ul class="lines">
+        <li>提出遅延への配慮：提出時期によっては社内処理の都合上、お支払い期日のご相談をさせていただく場合もございますので、その際は何卒ご了承ください。</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="s3">
+    <div class="sec-head"><span class="sec-num">3</span><h2>資料・契約書の確認系</h2></div>
+
+    <div class="card">
+      <h3>契約書・資料を送付して確認を促す</h3>
+      <ul class="lines">
+        <li>{{書類名}}を添付にてお送りいたします。ご確認のほどよろしくお願いいたします。</li>
+        <li>よろしければご確認いただけますと幸いです。</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>契約書・資料を受領して確認する旨を伝える</h3>
+      <div class="tpl">{{書類名}}をお送りいただき、ありがとうございます。確かに拝受いたしました。
+社内にて内容を確認のうえ、改めてご連絡いたします。</div>
+    </div>
+
+    <div class="card">
+      <h3>契約締結の進め方（NDA ／ クラウドサイン）</h3>
+      <div class="tpl">締結につきましては、弊社よりクラウドサインにて署名依頼をお送りすることも可能ですが、いかがでしょうか。
+その場合、署名者様のお名前とメールアドレスをご共有いただけますと幸いです。</div>
+      <ul class="lines">
+        <li>日付確認：契約書末尾の日付について、{{日付}}として問題ございませんでしょうか。ご確認いただけますと幸いです。</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="s4">
+    <div class="sec-head"><span class="sec-num">4</span><h2>お客様サポート系</h2></div>
+    <p class="sec-note">回答の中身はケースバイケースなので固定しない。「入り」と「締め」＋確認を促す言い回しだけをテンプレ化する。</p>
+
+    <div class="card">
+      <h3>入り（お礼＋回答の前置き）</h3>
+      <div class="tpl">このたびは、{{製品名／件名}}についてお問い合わせいただき、誠にありがとうございます。
+ご質問について、以下のとおりご回答いたします。</div>
+      <ul class="lines">
+        <li>回答が遅れたとき：お問い合わせのご回答にお時間を頂戴しまして恐れ入ります。</li>
+        <li>社内確認が必要なとき：恐れ入りますが、社内にて確認のうえ、改めてご連絡いたします。</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>状況確認を依頼する（切り分け）</h3>
+      <div class="tpl">恐れ入りますが、下記の状況についてご確認いただけますでしょうか。
+① {{確認項目}}
+② {{確認項目}}</div>
+      <ul class="lines">
+        <li>1点ご確認ですが、{{確認内容}}でしょうか。</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>締め</h3>
+      <ul class="lines">
+        <li>ご不明な点がございましたら、お気軽にお知らせください。</li>
+        <li>弊社でも引き続き確認・調査を進めており、追加でお伝えできることがございましたら、改めてご連絡させていただきます。</li>
+        <li>何卒よろしくお願いいたします。</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="s5">
+    <div class="sec-head"><span class="sec-num">5</span><h2>見積・フォロー系</h2></div>
+    <p class="sec-note">汎用版。EV Switch設置サービス窓口（evsw-purchase）の定型文は本人の文面ではないため除外。</p>
+
+    <div class="card">
+      <h3>見積を送付する</h3>
+      <div class="tpl">お見積もりのご準備が整いましたので、添付にてお送りいたします。
+ご査収のほどよろしくお願いいたします。
+ご不明な点やご相談がございましたら、お気軽にご連絡ください。</div>
+      <ul class="lines">
+        <li>資料と一緒に送るとき：社内にて{{対象}}の準備を進めましたので、ご共有いたします。（§1-4「会議後の資料送付」とも併用）</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>催促・リマインド（状況を伺う）</h3>
+      <div class="tpl">{{件名／依頼事項}}につきまして、その後いかがでしょうか。
+お忙しいところ恐れ入りますが、進捗やご状況をご共有いただけますと幸いです。</div>
+      <ul class="lines">
+        <li>期日の都合を添えるとき：{{理由（例：弊社の経理締め）}}の都合上、大変恐縮ですが、可能であれば{{N}}営業日までにご対応いただけますと幸いです。（請求書の督促は §2-4 を参照）</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="s6">
+    <div class="sec-head"><span class="sec-num">6</span><h2>お断り・お詫び系</h2></div>
+
+    <div class="card">
+      <h3>相手からの「見送り」への返答</h3>
+      <div class="tpl">今回は見送りとのこと、承知いたしました。
+もし差し支えなければ、今後の対応の参考にさせていただきたく、見送りとされた理由をお伺いできますでしょうか。
+お忙しいところ恐れ入りますが、よろしくお願いいたします。</div>
+      <ul class="lines">
+        <li>理由をもらった後：他社製品も含めてご比較・ご検討いただいた上でのご判断とのこと、承知いたしました。</li>
+        <li>ねぎらい：現地調査の対応につきましても温かいお言葉をいただき、大変嬉しく存じます。担当者にもお伝えさせていただきます。</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>こちらからお断りする（依頼に沿えないとき）</h3>
+      <div class="tpl">せっかくのご相談にもかかわらず、{{沿えない理由}}のため、ご希望に沿うことができません。
+大変恐縮ではございますが、何卒ご了承くださいますようお願い申し上げます。</div>
+    </div>
+
+    <div class="card">
+      <h3>お詫び（返信・対応の遅れ）</h3>
+      <ul class="lines">
+        <li>ご返信までお時間をいただいてしまい、大変申し訳ございませんでした。</li>
+        <li>お問い合わせのご回答にお時間を頂戴しまして恐れ入ります。</li>
+        <li>確認が遅れまして大変申し訳ございませんでした。{{原因}}のため、確認が行えておりませんでした。大変申し訳ございません。</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="s7">
+    <div class="sec-head"><span class="sec-num">7</span><h2>日程調整モード（カレンダー連携）</h2></div>
+    <p class="sec-note">フレーズというより「仕組みの動作」のメモ。予定作成は必ず<b>招待を送らない設定</b>（相手には下書き送信で伝える）。</p>
+
+    <div class="card">
+      <h3>Natureから候補を出す場合</h3>
+      <ul class="lines">
+        <li>1. カレンダーの空きを確認（平日・時間帯の条件つき）</li>
+        <li>2. 空き枠を<b>最大3つ</b>、仮予定として押さえる（「[仮]」を付ける）</li>
+        <li>3. その3日程を「1-2 候補日を送る」に反映</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>先方から候補日を受領した場合</h3>
+      <ul class="lines">
+        <li>1. その日時がカレンダーで空いているか確認</li>
+        <li>2. 空いていれば → その枠を押さえる（「1-3 確定」）。会議URLは本文に入れる</li>
+        <li>3. 空いていなければ → 上の「候補を出す」フローで代替案を最大3つ</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>会議URL（「別途送る」にせず本文に入れる）</h3>
+      <ul class="lines">
+        <li><b>Nature発行</b> → 既定で Google Meet を発行して本文に貼る</li>
+        <li><b>NatureがTeamsで発行する相手</b> → <span class="ph">{{要確認：TeamsのURLを貼付}}</span>（Teamsは自動発行不可）</li>
+        <li><b>先方が設定する場合</b> → URLは入れず、その旨だけ反映</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="tips">
+    <div class="takeaways">
+      <h2>傾向メモ（抽出して見えた「三矢さんらしさ」）</h2>
+      <ul>
+        <li>相手の呼称は基本 <b>「宛名 ＋ 様」</b>。社名は初回や複数社宛のときに添える。</li>
+        <li>一文が丁寧で、<b>クッション言葉</b>（恐れ入りますが／大変恐縮ですが／生憎）を多用。</li>
+        <li>依頼は必ず<b>理由（〜の都合）とセット</b>で、期日は「N営業日まで」で伝える。</li>
+        <li>会議調整は <b>「候補日を箇条書き → ご都合を伺う → 確定したらURL発行」</b> の型が固定。</li>
+        <li>本文末尾は <b>「Nature / 三矢」</b>、正式署名はGmailのデフォルト署名。</li>
+      </ul>
+    </div>
+    <footer>
+      <span class="legend"><span class="ph">{{ }}</span> ＝ 毎回差し替える箇所。</span>　このページは下書き自動生成の「素材」です。足したいシーン・直したい言い回しがあれば教えてください。
+    </footer>
+  </section>
+</div>
+
+<script>
+  (function(){
+    var rx=/\{\{[^{}]+\}\}/g;
+    function walk(node){
+      for(var i=node.childNodes.length-1;i>=0;i--){
+        var c=node.childNodes[i];
+        if(c.nodeType===3){
+          var t=c.nodeValue;
+          if(rx.test(t)){
+            rx.lastIndex=0;
+            var frag=document.createDocumentFragment(),last=0,m;
+            while((m=rx.exec(t))){
+              if(m.index>last) frag.appendChild(document.createTextNode(t.slice(last,m.index)));
+              var span=document.createElement('span');
+              span.className='ph';span.textContent=m[0];
+              frag.appendChild(span);last=m.index+m[0].length;
+            }
+            if(last<t.length) frag.appendChild(document.createTextNode(t.slice(last)));
+            c.parentNode.replaceChild(frag,c);
+          }
+        } else if(c.nodeType===1 && !c.classList.contains('ph')){
+          walk(c);
+        }
+      }
+    }
+    walk(document.querySelector('.wrap'));
+  })();
+</script>
