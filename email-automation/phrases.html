@@ -65,7 +65,6 @@
   }
   .wrap{max-width:820px;margin:0 auto;padding:0 20px 96px}
 
-  /* header */
   header{padding:52px 0 28px;border-bottom:1px solid var(--line);margin-bottom:8px}
   .eyebrow{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent-ink);font-weight:700;margin:0 0 12px}
   h1{font-family:"Zen Kaku Gothic New","Noto Sans JP",sans-serif;font-weight:700;font-size:2.15rem;line-height:1.25;margin:0 0 14px;text-wrap:balance}
@@ -73,7 +72,6 @@
   .meta{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px}
   .chip{font-size:.78rem;color:var(--ink-soft);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px 12px}
 
-  /* toc */
   nav.toc{position:sticky;top:0;z-index:5;background:var(--ground);
     padding:14px 0;margin-bottom:28px;border-bottom:1px solid var(--line);
     display:flex;flex-wrap:wrap;gap:8px}
@@ -100,7 +98,6 @@
   ul.lines li::before{content:"";position:absolute;left:4px;top:.72em;width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:.55}
   ul.lines li .cap{display:block;color:var(--ink-faint);font-size:.82rem;padding-left:0}
 
-  /* template block */
   .tpl{background:var(--tpl-bg);border-left:3px solid var(--tpl-line);border-radius:0 10px 10px 0;
     padding:14px 16px;margin:12px 0;font-size:.95rem;white-space:pre-wrap;color:var(--ink)}
   .tpl .lbl{display:block;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;
@@ -128,11 +125,11 @@
   <header>
     <p class="eyebrow">Nature ／ 三矢さん</p>
     <h1>メール頻出フレーズ集</h1>
-    <p class="lede">送信済みメール（社外向け）から抜き出した、実際によく使う言い回し。メール下書き自動化の「素材」として使います。<span class="legend"><span class="ph">{{ }}</span> は毎回差し替える箇所。</span></p>
+    <p class="lede">送信済みメール（社外向け）から抵き出した、実際によく使う言い回し。メール下書き自動化の「素材」として使います。<span class="legend"><span class="ph">{{ }}</span> は毎回差し替える箇所。</span></p>
     <div class="meta">
       <span class="chip">叩き台 — 直したい所は遠慮なく</span>
       <span class="chip">対象：社外メール</span>
-      <span class="chip">4シーン ＋ 共通パーツ</span>
+      <span class="chip">7シーン ＋ 共通パーツ</span>
     </div>
   </header>
 
@@ -142,13 +139,12 @@
     <a href="#s2">2. 注文・請求</a>
     <a href="#s3">3. 資料・契約</a>
     <a href="#s4">4. お客様サポート</a>
-    <a href="#s5">5. 見積・検討フォロー</a>
+    <a href="#s5">5. 見積・フォロー</a>
     <a href="#s6">6. お断り・お詫び</a>
     <a href="#s7">7. 日程調整（カレンダー）</a>
     <a href="#tips">傾向メモ</a>
   </nav>
 
-  <!-- COMMON -->
   <section id="common">
     <div class="sec-head"><span class="sec-num">0</span><h2>共通パーツ</h2></div>
     <p class="sec-note">どのメールでも使う土台。</p>
@@ -203,7 +199,6 @@ https://nature.global/</div>
     </div>
   </section>
 
-  <!-- SCENE 1 -->
   <section id="s1">
     <div class="sec-head"><span class="sec-num">1</span><h2>会議調整系</h2></div>
 
@@ -250,7 +245,6 @@ https://nature.global/</div>
     </div>
   </section>
 
-  <!-- SCENE 2 -->
   <section id="s2">
     <div class="sec-head"><span class="sec-num">2</span><h2>注文・納品・請求系</h2></div>
 
@@ -291,7 +285,6 @@ https://nature.global/</div>
     </div>
   </section>
 
-  <!-- SCENE 3 -->
   <section id="s3">
     <div class="sec-head"><span class="sec-num">3</span><h2>資料・契約書の確認系</h2></div>
 
@@ -319,7 +312,6 @@ https://nature.global/</div>
     </div>
   </section>
 
-  <!-- SCENE 4 -->
   <section id="s4">
     <div class="sec-head"><span class="sec-num">4</span><h2>お客様サポート系</h2></div>
     <p class="sec-note">回答の中身はケースバイケースなので固定しない。「入り」と「締め」＋確認を促す言い回しだけをテンプレ化する。</p>
@@ -354,43 +346,30 @@ https://nature.global/</div>
     </div>
   </section>
 
-  <!-- SCENE 5 -->
   <section id="s5">
-    <div class="sec-head"><span class="sec-num">5</span><h2>見積・検討フォロー系</h2></div>
+    <div class="sec-head"><span class="sec-num">5</span><h2>見積・フォロー系</h2></div>
+    <p class="sec-note">汎用版。EV Switch設置サービス窓口（evsw-purchase）の定型文は本人の文面ではないため除外。</p>
 
     <div class="card">
-      <h3>見積を送付する（現地調査後の案内型）</h3>
-      <div class="tpl">先日は現地調査にご協力いただきありがとうございました。
-設置工事のお見積りをご案内いたします。詳細は添付のお見積書をご確認ください。
-
-■ ご確認のお願い
-内容をご確認のうえ、{{期限（例：14日以内）}}を目安に以下いずれかをご返信ください。
-・{{選択肢A（例：設置工事を依頼する）}}
-・{{選択肢B（例：今回は見送る）}}
-
-ご不明点やご相談がございましたら、お気軽にお問い合わせください。
-何卒よろしくお願いいたします。</div>
+      <h3>見積を送付する</h3>
+      <div class="tpl">お見積もりのご準備が整いましたので、添付にてお送りいたします。
+ご査収のほどよろしくお願いいたします。
+ご不明な点やご相談がございましたら、お気軽にご連絡ください。</div>
       <ul class="lines">
-        <li>補助金対応が必要なとき：{{補助金名}}の申請を予定されているとのことでしたので、対応したお見積り書を作成いたしております。</li>
+        <li>資料と一緒に送るとき：社内にて{{対象}}の準備を進めましたので、ご共有いたします。（§1-4「会議後の資料送付」とも併用）</li>
       </ul>
     </div>
 
     <div class="card">
-      <h3>催促・リマインド（検討状況を伺う）</h3>
-      <div class="tpl">先日、{{件名／見積}}をお送りいたしましたが、ご検討状況はいかがでしょうか。
-{{依頼する場合／見送る場合}}のいずれでも、ご一報をいただけますと幸いです。
-ご依頼に当たって何かご懸念やご不安な点がございましたら、できる限りサポートしたいと存じますので、お気軽にお申し付けください。</div>
-    </div>
-
-    <div class="card">
-      <h3>未返信のためのクローズ（キャンセル扱いの連絡）</h3>
-      <div class="tpl">先日お送りした{{件名}}につきまして、その後ご返信をいただけておりませんため、
-恐れ入りますが今回の{{お申し込み／お見積り（受付番号：{{番号}}）}}は一度キャンセル扱いとさせていただきます。
-引き続きご検討いただける場合や、あらためてご希望の際は、いつでもお気軽にご連絡ください。</div>
+      <h3>催促・リマインド（状況を伺う）</h3>
+      <div class="tpl">{{件名／依頼事項}}につきまして、その後いかがでしょうか。
+お忙しいところ恐れ入りますが、進捗やご状況をご共有いただけますと幸いです。</div>
+      <ul class="lines">
+        <li>期日の都合を添えるとき：{{理由（例：弊社の経理締め）}}の都合上、大変恐縮ですが、可能であれば{{N}}営業日までにご対応いただけますと幸いです。（請求書の督促は §2-4 を参照）</li>
+      </ul>
     </div>
   </section>
 
-  <!-- SCENE 6 -->
   <section id="s6">
     <div class="sec-head"><span class="sec-num">6</span><h2>お断り・お詫び系</h2></div>
 
@@ -421,7 +400,6 @@ https://nature.global/</div>
     </div>
   </section>
 
-  <!-- SCENE 7 -->
   <section id="s7">
     <div class="sec-head"><span class="sec-num">7</span><h2>日程調整モード（カレンダー連携）</h2></div>
     <p class="sec-note">フレーズというより「仕組みの動作」のメモ。Googleカレンダーと連携する部分。</p>
@@ -437,14 +415,13 @@ https://nature.global/</div>
     </div>
   </section>
 
-  <!-- TIPS -->
   <section id="tips">
     <div class="takeaways">
       <h2>傾向メモ（抽出して見えた「三矢さんらしさ」）</h2>
       <ul>
         <li>相手の呼称は基本 <b>「宛名 ＋ 様」</b>。社名は初回や複数社宛のときに添える。</li>
         <li>一文が丁寧で、<b>クッション言葉</b>（恐れ入りますが／大変恐縮ですが／生憎）を多用。</li>
-        <li>依頼は必ず<b>理由（〜の都合上）とセット</b>で、期日は「N営業日まで」で伝える。</li>
+        <li>依頼は必ず<b>理由（〜の都合）とセット</b>で、期日は「N営業日まで」で伝える。</li>
         <li>会議調整は <b>「候補日を箇条書き → ご都合を伺う → 確定したらURL発行」</b> の型が固定。</li>
         <li>本文末尾は <b>「Nature / 三矢」</b>、正式署名はGmailのデフォルト署名。</li>
       </ul>
@@ -456,7 +433,6 @@ https://nature.global/</div>
 </div>
 
 <script>
-  // {{...}} を差し替え記号としてハイライト（テンプレ枠と本文リスト内）
   (function(){
     var rx=/\{\{[^{}]+\}\}/g;
     function walk(node){
