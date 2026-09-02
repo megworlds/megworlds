@@ -417,16 +417,33 @@ https://nature.global/</div>
 
   <section id="s7">
     <div class="sec-head"><span class="sec-num">7</span><h2>日程調整モード（カレンダー連携）</h2></div>
-    <p class="sec-note">フレーズというより「仕組みの動作」のメモ。Googleカレンダーと連携する部分。</p>
+    <p class="sec-note">フレーズというより「仕組みの動作」のメモ。予定作成は必ず<b>招待を送らない設定</b>（相手には下書き送信で伝える）。</p>
 
     <div class="card">
-      <h3>できること</h3>
+      <h3>Natureから候補を出す場合</h3>
       <ul class="lines">
-        <li><b>候補日を送る</b>：自分のGoogleカレンダーの空きを自動抽出（平日・時間帯の条件つき）→「1-2 候補日を送る」テンプレに差し込む。</li>
-        <li><b>相手が確定したら</b>：Googleカレンダーに予定を作成し、Google Meet URLを自動発行。出席者を入れれば招待も送付。本文は「1-3 確定テンプレ」＋会議URL。</li>
-        <li><b>仮押さえ</b>：相手の返信待ちの間、「仮」予定としてカレンダーに登録できる。</li>
+        <li>1. カレンダーの空きを確認（平日・時間帯の条件つき）</li>
+        <li>2. 空き枠を<b>最大3つ</b>、仮予定として押さえる（「[仮]」を付ける）</li>
+        <li>3. その3日程を「1-2 候補日を送る」に反映</li>
       </ul>
-      <div class="callout warn"><strong>⚠️ Teams URLは自動発行できない</strong>　TeamsはMicrosoft側の機能のため、GoogleカレンダーからTeamsリンクは作れません。Teams希望の相手には、手動でURLを発行して本文に貼る運用になります。</div>
+    </div>
+
+    <div class="card">
+      <h3>先方から候補日を受領した場合</h3>
+      <ul class="lines">
+        <li>1. その日時がカレンダーで空いているか確認</li>
+        <li>2. 空いていれば → その枠を押さえる（「1-3 確定」）。会議URLは本文に入れる</li>
+        <li>3. 空いていなければ → 上の「候補を出す」フローで代替案を最大3つ</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>会議URL（「別途送る」にせず本文に入れる）</h3>
+      <ul class="lines">
+        <li><b>Nature発行</b> → 既定で Google Meet を発行して本文に貼る</li>
+        <li><b>NatureがTeamsで発行する相手</b> → <span class="ph">{{要確認：TeamsのURLを貼付}}</span>（Teamsは自動発行不可）</li>
+        <li><b>先方が設定する場合</b> → URLは入れず、その旨だけ反映</li>
+      </ul>
     </div>
   </section>
 

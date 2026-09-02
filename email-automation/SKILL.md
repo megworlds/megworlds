@@ -72,17 +72,23 @@ newer_than:2d -label:Claude/処理済み -in:sent -from:nature.global
 - 差し替え記号 `{{ }}` は、メール本文・スレッド文脈から埋められるものは埋め、埋められないものは `{{要確認：〇〇}}` の形で残して人が気づけるようにする。
 
 ### Step 4b: 日程調整メールのカレンダー連携
-シーンが「会議調整」の場合のみ:
+シーンが「会議調整」の場合のみ。カレンダーは `mmitsuya@nature.global` を見る。予定作成は必ず `notificationLevel: NONE`（外部への招待メールは送らない。招待は下書き送信＝本人の操作で伝える）。
 
-- **相手がまだ日程を出しておらず、こちらが候補日を出す番**のとき:
-  1. `list_events` / `suggest_time` で `mmitsuya@nature.global` のカレンダーの空きを確認する。
-  2. 平日・9:00〜18:00・各30〜60分程度・**3枠**を目安に候補を抽出（既存予定と重複しないもの）。
-  3. phrases.md §1-2「候補日を送る」テンプレに候補日を差し込んで下書きにする。
-- **相手が日程を確定してきた**とき:
-  1. `create_event` で予定を作成する。`addGoogleMeetUrl: true` でGoogle Meet URLを発行。
-  2. **`notificationLevel: NONE` にし、外部出席者への招待メールは送らない**（招待は下書き送信＝本人の操作で伝える）。予定は本人カレンダーの押さえとして作る。
-  3. 発行された Meet URL を、phrases.md §1-3「確定」テンプレに差し込んで下書きにする。
-  - ⚠️ 相手がTeams/Zoom指定の場合、URLは自動発行できない。その場合はMeet URLを作らず、本文に `{{要確認：Teams/Zoom URLを発行して貼付}}` を残す。
+**【A】Natureから候補日を出す場合**（相手がまだ日程を出していない）:
+1. `list_events` / `suggest_time` でカレンダーの空きを確認（平日・9:00〜18:00・所要時間ぶん）。
+2. 空き枠を**最大3つ**、仮予定として押さえる（`create_event`：summary 冒頭に「[仮]」、`availability: AVAILABILITY_FREE`、`notificationLevel: NONE`）。
+3. その3日程を phrases.md §1-2「候補日を送る」テンプレに反映して下書きにする。
+
+**【B】先方から候補日を受領した場合**:
+1. その候補日時がカレンダーで空いているか確認する。
+2. **空いていれば** → その枠で予定を作成して押さえる（`create_event`、`notificationLevel: NONE`）。会議URLは下記ルールで本文に入れる。phrases.md §1-3「確定」テンプレを使う。
+3. **空いていなければ** → 【A】に切り替え、こちらから候補を最大3つ出す。
+
+**【会議URL】** オンライン会議のURLは「別途お送りします」とはせず、**必ず本文に入れる**。ただし発行元が状況で異なる:
+- **Nature側が発行する場合** → 既定で **Google Meet を発行**（`create_event` の `addGoogleMeetUrl: true`）し、そのURLを本文に貼る。
+- **Nature側がTeamsで発行する運用の相手** → Teamsは自動発行できないため、本文に `{{要確認：TeamsのURLを発行して貼付}}` を残す。
+- **先方がURLを設定する場合**（先方がTeams/Zoom等を発行）→ URLは入れず、その旨だけ本文に反映。
+- どれか判断がつかない場合は、既定で Google Meet を発行して本文に貼り、報告で「Meetで発行した／必要なら差し替えを」と一言添える。
 
 ### Step 5: Gmail下書きの作成
 - `create_draft` で、**元スレッドに紐付けて**（`threadId` 指定）下書きを作成する。宛先・件名（Re:）・引用は元スレッドに合わせる。
