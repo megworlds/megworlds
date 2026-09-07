@@ -150,7 +150,7 @@
   <header class="head">
     <p class="eyebrow">Gmail 業務自動化 / 権限相談メモ</p>
     <h1>定期実行で「都度確認」が壁になっている件</h1>
-    <p class="lede">受信メールの仕分けと返信下書きを定期実行で自動化したい。ただし定期実行は無人で起動するため、Gmailツールの「都度確認」承認が押せず毎回止まってしまう。回避策の可否をエンジニアに確認したい。</p>
+    <p class="lede">受信メールの仕分けと返信下書きを定期実行で自動化したい。ただし定期実行は無人で起動するため、Gmailツールの「都度確認」承認が押せず毎回止まる。<b>調査の結果、実行モードでの迂回は公式仕様上できず、管理者による組織設定の有効化が必須</b>と分かった。その依頼と数点の確認をしたい。</p>
     <div class="meta">
       <span><b>相談者</b> 三矢（Growth Circle）</span>
       <span><b>対象</b> mmitsuya@nature.global の Gmail</span>
@@ -215,24 +215,28 @@
       <div class="top"><span class="num">1</span><h3>コネクタのツール権限（常に許可／都度確認／許可しない）</h3><span class="who">組織レベル設定<br>管理者のみ変更可</span></div>
       <div class="body"><span class="st">現在ロック中。</span> 組織設定 → Cowork → コネクタ → Gmail。「常に許可」が組織ポリシーで無効化されており、本人では解除できない。</div>
     </div>
-    <div class="layer open">
-      <div class="top"><span class="num">2</span><h3>セッション／ルーチンの実行モード（auto mode）</h3><span class="who">ルーチン毎に選択<br>本人で変更可</span></div>
-      <div class="body"><span class="st">迂回策の候補。</span> ルーチンを auto（自動承認）モードで動かすと都度承認がスキップされる。<b>8/3 の相談で黒田さんの見立て：</b>②の auto mode で同じ指示を出せば ① が無くても承認で止まらないはず。黒田さんの手元では auto mode でラベル作成・付与が承認無しで成功した。</div>
+    <div class="layer locked">
+      <div class="top"><span class="num">2</span><h3>セッション／ルーチンの実行モード（auto / bypass）</h3><span class="who">ルーチン毎に選択<br>本人で変更可</span></div>
+      <div class="body"><span class="st">調査の結果、迂回策にならない。</span> ルーチンは auto 等の実行モードを選べる（＝モード選択自体は本人可）が、<b>公式ドキュメントに明記：<code>bypassPermissions</code> は組織が管理するコネクタ承認を迂回しない。</b>組織が「ask（都度確認）」にしたツールは <code>acceptEdits</code> / <code>auto</code> / <code>bypassPermissions</code> の<b>どのモードでも毎回プロンプトが出る</b>（<code>dontAsk</code> では代わりに拒否＝失敗）。allow ルールでも迂回不可。<br><span style="color:var(--ink-3);font-size:12.5px">※ 8/3 に黒田さんが手元の auto mode で成功したのは、黒田さんが管理者権限を持ちロックが効いていなかったためと考えられる。</span></div>
+    </div>
+    <div class="wall" style="margin-top:16px;background:var(--accent-soft);border-color:color-mix(in srgb,var(--accent) 40%,transparent)">
+      <p class="lbl" style="color:var(--accent)">結論</p>
+      <p class="msg" style="font-family:var(--body);font-size:14px">②では解決しない。<b>①のロック解除（管理者が「常に許可」を有効化）が唯一の道。</b>これはエラーメッセージ「組織設定 → Cowork で有効にするよう管理者に依頼」と、公式ドキュメントの記述が一致している。</p>
     </div>
   </section>
 
   <section>
-    <h2><span class="n">05</span> エンジニアに確認したいこと</h2>
-    <p class="sub">この4点がクリアになれば定期実行を組める。</p>
+    <h2><span class="n">05</span> 管理者にお願いしたいこと</h2>
+    <p class="sub">調査で「①の解除が唯一の道」と確定。以下を依頼＋確認したい。</p>
     <ol class="q">
-      <li>auto 実行モードで定期実行すれば、①の「常に許可」ロックが無くても<b>下書き作成・ラベル付けまで通る</b>か？
-        <small>＝ 黒田さんの見立ての最終確認。通るなら管理者対応は不要。</small></li>
-      <li>通らない場合、①の<b>ロック解除</b>は可能か？（組織設定 → Cowork → コネクタ → Gmail の <code>create_draft</code> / <code>create_label</code> / <code>label_thread</code> を「常に許可」に）
-        <small>＝ その3ツールだけ。送信・削除系は許可しないままでよい。</small></li>
-      <li>どのサーフェスで動かすのが正解か。<b>Cowork の Scheduled task</b> か、<b>Claude Code の routine</b> か？
-        <small>＝ auto mode が使えるのはどちらか、社内の推奨はどちらか。</small></li>
-      <li>Gmail コネクタの<b>認証が切れる</b>と定期実行が止まる。再認証の運用や延命の方法はあるか？
-        <small>＝ 実際に一度 token expired で下書き作成に失敗した。無人運用での再接続フローを知りたい。</small></li>
+      <li><b>【依頼・必須】</b>組織設定を有効化してほしい。<b>組織設定 → Cowork → コネクタ → 「常に許可」を有効化</b>。
+        <small>＝ これが無効な間は、無人の定期実行が承認待ちで必ず失敗する（公式仕様）。有効化後、本人側で対象タスクに「常に許可」を設定できるようになる。</small></li>
+      <li><b>【確認】</b>有効化の範囲は、Gmail の <code>create_draft</code> / <code>create_label</code> / <code>label_thread</code> の3つに絞れるか？
+        <small>＝ 送信・削除系は「許可しない／都度確認」のままにしておきたい。粒度がどこまで効くか。</small></li>
+      <li><b>【確認】</b>どのサーフェスで動かすのが社内の推奨か。<b>Cowork の Scheduled task</b> か <b>Claude Code の routine</b> か？
+        <small>＝ どちらでも上記①の組織設定が前提になる点は同じ。運用しやすい方を知りたい。</small></li>
+      <li><b>【確認】</b>Gmail コネクタの<b>認証が切れる</b>と定期実行が止まる。無人運用での再認証／延命の方法はあるか？
+        <small>＝ 実際に一度 token expired で下書き作成に失敗した。</small></li>
     </ol>
   </section>
 
@@ -251,6 +255,7 @@
 
   <footer>
     作成: Claude Code ／ 相談先: 管理者（エンジニア）<br>
-    参照スレッド: natureglobal.slack.com C0AD13GANT0 (2026-08-03)
+    参照スレッド: natureglobal.slack.com C0AD13GANT0 (2026-08-03)<br>
+    根拠: code.claude.com/docs/en/mcp（Organization Controls on Connector Tools）, /permission-modes, /permissions ／ support.claude.com（Use Claude Cowork on Team and Enterprise Plans）
   </footer>
 </div>
