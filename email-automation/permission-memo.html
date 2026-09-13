@@ -1,0 +1,261 @@
+<title>Gmail定期実行 権限相談メモ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+  :root{
+    --ground:#f5f7f5;
+    --surface:#ffffff;
+    --surface-2:#eef1ee;
+    --ink:#18211d;
+    --ink-2:#4a564f;
+    --ink-3:#77857c;
+    --line:#dde3de;
+    --accent:#0e7c66;
+    --accent-soft:#e2f1ec;
+    --warn:#b45309;
+    --warn-soft:#fbe6d2;
+    --danger:#b4322a;
+    --danger-soft:#f8e3e1;
+    --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+    --disp:'Zen Kaku Gothic New','Noto Sans JP',system-ui,sans-serif;
+    --body:'Noto Sans JP',system-ui,sans-serif;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --ground:#12160f;
+      --surface:#1b211a;
+      --surface-2:#232a21;
+      --ink:#e9efe8;
+      --ink-2:#b3bdb2;
+      --ink-3:#828d80;
+      --line:#2e372c;
+      --accent:#4fbfa2;
+      --accent-soft:#173029;
+      --warn:#e5a24e;
+      --warn-soft:#33260f;
+      --danger:#e0776e;
+      --danger-soft:#33191a;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#12160f;
+    --surface:#1b211a;
+    --surface-2:#232a21;
+    --ink:#e9efe8;
+    --ink-2:#b3bdb2;
+    --ink-3:#828d80;
+    --line:#2e372c;
+    --accent:#4fbfa2;
+    --accent-soft:#173029;
+    --warn:#e5a24e;
+    --warn-soft:#33260f;
+    --danger:#e0776e;
+    --danger-soft:#33191a;
+  }
+  *{box-sizing:border-box}
+  body{background:var(--ground);color:var(--ink);font-family:var(--body);line-height:1.75;
+    font-feature-settings:"palt";-webkit-font-smoothing:antialiased;margin:0}
+  .wrap{max-width:760px;margin:0 auto;padding:clamp(24px,5vw,56px) clamp(18px,4vw,32px) 72px}
+
+  header.head{border-bottom:2px solid var(--ink);padding-bottom:22px;margin-bottom:34px}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--accent);margin:0 0 12px}
+  h1{font-family:var(--disp);font-weight:900;font-size:clamp(26px,5vw,38px);line-height:1.25;
+    letter-spacing:.01em;margin:0 0 14px;text-wrap:balance}
+  .lede{font-size:16px;color:var(--ink-2);margin:0;max-width:60ch}
+  .meta{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px 18px;font-size:12.5px;color:var(--ink-3);
+    font-family:var(--mono)}
+  .meta b{color:var(--ink-2);font-weight:500}
+
+  section{margin-top:38px}
+  h2{font-family:var(--disp);font-weight:700;font-size:19px;margin:0 0 4px;letter-spacing:.01em;
+    display:flex;align-items:baseline;gap:11px}
+  h2 .n{font-family:var(--mono);font-size:13px;color:var(--accent);font-weight:500}
+  .sub{color:var(--ink-3);font-size:13px;margin:0 0 18px;padding-left:24px}
+
+  p{margin:0 0 14px}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px 22px}
+  .card + .card{margin-top:14px}
+
+  /* tool lists */
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media (max-width:560px){.cols{grid-template-columns:1fr}}
+  .toollist{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:9px}
+  .toollist li{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--ink-2)}
+  .toollist code{font-family:var(--mono);font-size:12.5px;background:var(--surface-2);color:var(--ink);
+    padding:1px 6px;border-radius:5px;white-space:nowrap}
+  .tag{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+    padding:3px 9px;border-radius:20px;font-weight:500;display:inline-block}
+  .tag.ok{background:var(--accent-soft);color:var(--accent)}
+  .tag.no{background:var(--danger-soft);color:var(--danger)}
+  .dot{flex:0 0 auto;width:7px;height:7px;border-radius:50%;margin-top:8px}
+  .dot.ok{background:var(--accent)}
+  .dot.no{background:var(--danger)}
+
+  /* flow */
+  .flow{display:flex;flex-direction:column;gap:0;margin-top:6px}
+  .step{display:flex;gap:14px;align-items:flex-start;padding:2px 0}
+  .step .rail{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;align-self:stretch}
+  .step .pip{width:12px;height:12px;border-radius:50%;border:2px solid var(--accent);background:var(--surface);margin-top:5px}
+  .step.fail .pip{border-color:var(--danger);background:var(--danger)}
+  .step .wire{flex:1;width:2px;background:var(--line);margin:3px 0}
+  .step:last-child .wire{display:none}
+  .step .txt{padding-bottom:16px;font-size:14px;color:var(--ink-2)}
+  .step .txt b{color:var(--ink);font-weight:700}
+
+  /* permission table */
+  .layer{border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .layer + .layer{margin-top:12px}
+  .layer .top{display:flex;align-items:center;gap:12px;padding:14px 18px;background:var(--surface)}
+  .layer .num{font-family:var(--disp);font-weight:900;font-size:20px;line-height:1;color:var(--surface);
+    background:var(--ink);width:30px;height:30px;border-radius:8px;display:grid;place-items:center;flex:0 0 auto}
+  .layer.locked .num{background:var(--warn)}
+  .layer.open .num{background:var(--accent)}
+  .layer .top h3{font-family:var(--disp);font-size:15px;margin:0;font-weight:700}
+  .layer .top .who{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--ink-3);text-align:right}
+  .layer .body{padding:14px 18px;border-top:1px solid var(--line);background:var(--surface-2);
+    font-size:13.5px;color:var(--ink-2)}
+  .layer .body .st{font-weight:700}
+  .layer.locked .st{color:var(--warn)}
+  .layer.open .st{color:var(--accent)}
+
+  /* callout */
+  .wall{background:var(--warn-soft);border:1px solid color-mix(in srgb,var(--warn) 40%,transparent);
+    border-radius:12px;padding:18px 20px}
+  .wall .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--warn);font-weight:500;margin:0 0 8px}
+  .wall .msg{font-family:var(--mono);font-size:13px;color:var(--ink);margin:0;line-height:1.65}
+
+  /* questions */
+  ol.q{list-style:none;counter-reset:q;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:12px}
+  ol.q li{counter-increment:q;position:relative;padding:14px 18px 14px 52px;background:var(--surface);
+    border:1px solid var(--line);border-radius:11px;font-size:14px;color:var(--ink)}
+  ol.q li::before{content:"Q" counter(q);position:absolute;left:16px;top:13px;font-family:var(--mono);
+    font-size:12px;font-weight:500;color:var(--accent);background:var(--accent-soft);
+    padding:3px 7px;border-radius:6px}
+  ol.q li small{display:block;color:var(--ink-3);font-size:12.5px;margin-top:4px;line-height:1.6}
+
+  .safe{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}
+  .safe li{display:flex;gap:11px;font-size:14px;color:var(--ink-2);align-items:flex-start}
+  .safe li b{color:var(--ink);font-weight:700}
+  .check{flex:0 0 auto;color:var(--accent);font-weight:900;margin-top:1px}
+
+  footer{margin-top:46px;padding-top:18px;border-top:1px solid var(--line);
+    font-size:12px;color:var(--ink-3);font-family:var(--mono);line-height:1.7}
+  a{color:var(--accent)}
+</style>
+
+<div class="wrap">
+  <header class="head">
+    <p class="eyebrow">Gmail 業務自動化 / 権限相談メモ</p>
+    <h1>定期実行で「都度確認」が壁になっている件</h1>
+    <p class="lede">受信メールの仕分けと返信下書きを定期実行で自動化したい。ただし定期実行は無人で起動するため、Gmailツールの「都度確認」承認が押せず毎回止まる。<b>調査の結果、実行モードでの迂回は公式仕様上できず、管理者による組織設定の有効化が必須</b>と分かった。その依頼と数点の確認をしたい。</p>
+    <div class="meta">
+      <span><b>相談者</b> 三矢（Growth Circle）</span>
+      <span><b>対象</b> mmitsuya@nature.global の Gmail</span>
+      <span><b>前相談</b> 2026-08-03 / 黒田さん</span>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="n">01</span> やりたいこと</h2>
+    <p class="sub">人の手を介さず、決まった時刻に受信箱を整えて返信の下書きまで用意する。</p>
+    <div class="card">
+      <p style="margin:0">受信メールを内容で<b>仕分け（ラベル付け）</b>し、返信が必要なものには三矢の文体で<b>返信下書きを自動作成</b>する。<b>最終的な送信は必ず本人がボタンを押す</b>——AIは下書きどまり。日程調整のメールだけ、カレンダーの空きを見て候補出し／仮押さえも行う。</p>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span> 使うツールと、絶対にやらないこと</h2>
+    <p class="sub">権限は最小限。破壊的・外向きの操作は仕組みとして持たせていない。</p>
+    <div class="cols">
+      <div class="card">
+        <span class="tag ok">使うツール</span>
+        <ul class="toollist">
+          <li><span class="dot ok"></span><div><code>create_draft</code> 返信の下書き作成</div></li>
+          <li><span class="dot ok"></span><div><code>create_label</code> ラベル作成</div></li>
+          <li><span class="dot ok"></span><div><code>label_thread</code> スレッドにラベル付与</div></li>
+          <li><span class="dot ok"></span><div><code>Calendar: list / create_event</code>（日程調整時のみ・招待は送らない設定）</div></li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="tag no">やらないこと</span>
+        <ul class="toollist">
+          <li><span class="dot no"></span><div>メールの<b>送信</b>（send）</div></li>
+          <li><span class="dot no"></span><div>メールの<b>削除・Trash / Spam 移動</b></div></li>
+          <li><span class="dot no"></span><div>予定の<b>外部出席者への招待送信</b></div></li>
+          <li><span class="dot no"></span><div>本人アカウント<b>以外</b>への操作</div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span> どこで詰まるか</h2>
+    <p class="sub">定期実行（無人起動）と「都度確認」承認が噛み合わない。</p>
+    <div class="card">
+      <div class="flow">
+        <div class="step"><div class="rail"><div class="pip"></div><div class="wire"></div></div><div class="txt">定期実行が<b>決まった時刻に無人で起動</b>する</div></div>
+        <div class="step"><div class="rail"><div class="pip"></div><div class="wire"></div></div><div class="txt">Gmailツール（下書き作成／ラベル付け）を呼び出す</div></div>
+        <div class="step"><div class="rail"><div class="pip"></div><div class="wire"></div></div><div class="txt">権限が<b>「都度確認」しか選べず</b>、承認待ちで停止する</div></div>
+        <div class="step fail"><div class="rail"><div class="pip"></div></div><div class="txt"><b>承認する人がいない</b>ため、毎回失敗して終わる</div></div>
+      </div>
+      <div class="wall" style="margin-top:16px">
+        <p class="lbl">「常に許可」にしようとすると出るメッセージ</p>
+        <p class="msg">「常に許可」は管理者によって無効化されています。組織設定 → Cowork で有効にするよう管理者に依頼してください。</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span> 混同しやすい「2つの権限」</h2>
+    <p class="sub">① を管理者が開けるか、②で迂回できるか——ここが相談の核心。</p>
+    <div class="layer locked">
+      <div class="top"><span class="num">1</span><h3>コネクタのツール権限（常に許可／都度確認／許可しない）</h3><span class="who">組織レベル設定<br>管理者のみ変更可</span></div>
+      <div class="body"><span class="st">現在ロック中。</span> 組織設定 → Cowork → コネクタ → Gmail。「常に許可」が組織ポリシーで無効化されており、本人では解除できない。</div>
+    </div>
+    <div class="layer locked">
+      <div class="top"><span class="num">2</span><h3>セッション／ルーチンの実行モード（auto / bypass）</h3><span class="who">ルーチン毎に選択<br>本人で変更可</span></div>
+      <div class="body"><span class="st">調査の結果、迂回策にならない。</span> ルーチンは auto 等の実行モードを選べる（＝モード選択自体は本人可）が、<b>公式ドキュメントに明記：<code>bypassPermissions</code> は組織が管理するコネクタ承認を迂回しない。</b>組織が「ask（都度確認）」にしたツールは <code>acceptEdits</code> / <code>auto</code> / <code>bypassPermissions</code> の<b>どのモードでも毎回プロンプトが出る</b>（<code>dontAsk</code> では代わりに拒否＝失敗）。allow ルールでも迂回不可。<br><span style="color:var(--ink-3);font-size:12.5px">※ 8/3 に黒田さんが手元の auto mode で成功したのは、黒田さんが管理者権限を持ちロックが効いていなかったためと考えられる。</span></div>
+    </div>
+    <div class="wall" style="margin-top:16px;background:var(--accent-soft);border-color:color-mix(in srgb,var(--accent) 40%,transparent)">
+      <p class="lbl" style="color:var(--accent)">結論</p>
+      <p class="msg" style="font-family:var(--body);font-size:14px">②では解決しない。<b>①のロック解除（管理者が「常に許可」を有効化）が唯一の道。</b>これはエラーメッセージ「組織設定 → Cowork で有効にするよう管理者に依頼」と、公式ドキュメントの記述が一致している。</p>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span> 管理者にお願いしたいこと</h2>
+    <p class="sub">調査で「①の解除が唯一の道」と確定。以下を依頼＋確認したい。</p>
+    <ol class="q">
+      <li><b>【依頼・必須】</b>組織設定を有効化してほしい。<b>組織設定 → Cowork → コネクタ → 「常に許可」を有効化</b>。
+        <small>＝ これが無効な間は、無人の定期実行が承認待ちで必ず失敗する（公式仕様）。有効化後、本人側で対象タスクに「常に許可」を設定できるようになる。</small></li>
+      <li><b>【確認】</b>有効化の範囲は、Gmail の <code>create_draft</code> / <code>create_label</code> / <code>label_thread</code> の3つに絞れるか？
+        <small>＝ 送信・削除系は「許可しない／都度確認」のままにしておきたい。粒度がどこまで効くか。</small></li>
+      <li><b>【確認】</b>どのサーフェスで動かすのが社内の推奨か。<b>Cowork の Scheduled task</b> か <b>Claude Code の routine</b> か？
+        <small>＝ どちらでも上記①の組織設定が前提になる点は同じ。運用しやすい方を知りたい。</small></li>
+      <li><b>【確認】</b>Gmail コネクタの<b>認証が切れる</b>と定期実行が止まる。無人運用での再認証／延命の方法はあるか？
+        <small>＝ 実際に一度 token expired で下書き作成に失敗した。</small></li>
+    </ol>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span> 承認をスキップしても事故らない理由</h2>
+    <p class="sub">auto mode を許しても、被害の出る操作は仕組み側で塞いである。</p>
+    <div class="card">
+      <ul class="safe">
+        <li><span class="check">✓</span><div>触るのは<b>下書きとラベルだけ</b>。送信・削除・Trash / Spam は対象外（ツールとして持たせない）。</div></li>
+        <li><span class="check">✓</span><div>最終的な<b>送信は必ず人（三矢）がボタンを押す</b>。AIが勝手に外へ出すことはない。</div></li>
+        <li><span class="check">✓</span><div>操作対象は<b>本人の Gmail のみ</b>。他人のアカウントには触れない。</div></li>
+        <li><span class="check">✓</span><div>カレンダーの予定作成も<b>招待メールを送らない設定</b>（本人カレンダーの押さえにとどめる）。</div></li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    作成: Claude Code ／ 相談先: 管理者（エンジニア）<br>
+    参照スレッド: natureglobal.slack.com C0AD13GANT0 (2026-08-03)<br>
+    根拠: code.claude.com/docs/en/mcp（Organization Controls on Connector Tools）, /permission-modes, /permissions ／ support.claude.com（Use Claude Cowork on Team and Enterprise Plans）
+  </footer>
+</div>
